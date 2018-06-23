@@ -1,0 +1,37 @@
+{% extends "default.html" %}
+
+{% block container %}
+				<textarea style="display: none" disabled="true" id="message"></textarea>
+				<p style="text-align:center; color: red" id="error"></p>
+				<input type="password" id="key" placeholder="The Message's key">
+				<button onclick="getMessage()">See your message</button>
+				<p style="text-align: center"><spam style="color: red">IMPORTANT:</spam> Your message will be deleted after you exit or reaload this page!</p>
+		<script>
+			const msgLink = "{{link}}";
+			let key = document.getElementById('key');
+			let msgPlace = document.getElementById('message');
+			let button = document.querySelector('button');
+			let error = document.getElementById('error');
+
+			function getMessage() {
+				console.log('Decrypting...');
+				let xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+				    if (this.readyState == 4 && this.status == 200) {
+				    	msgPlace.style.display = 'block';
+				       	msgPlace.value = xhttp.responseText;
+				       	button.style.display = 'none';
+				       	key.style.display = 'none';
+				       	error.textContent = '';
+				       	console.log('Message decrypted');
+				    } else if (this.status == 404) {
+				    	error.textContent = xhttp.responseText;
+				    	console.log('Wrong Key!');
+				    }
+				}
+				xhttp.open("GET", "/decrypt/"+msgLink+'-'+key.value, true);
+				xhttp.send();
+			}
+
+		</script>
+{% endblock %}

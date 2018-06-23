@@ -1,0 +1,58 @@
+
+{% extends "default.html" %}
+
+{% block container %}
+<center>
+	<h2>Create a new link message</h2>
+</center>
+<form method="POST" action="/send">
+	<textarea id="msg" name="message" placeholder="Your message goes here..."></textarea>
+	<input type="password" name="key" placeholder="Input some key here">
+	<input type="submit">
+</form>
+<div class="info">
+	<h2>Some Informations:</h2>
+	<p>The Hidden Message uses AES criptography to store all the messages, encrypting them with the message's key.</p>
+	<p>The message is deleted from our server after someone access the message's link and put it key correctly.</p>
+	<p>The Hidden Message does not keep any user's data.</p>
+</div>
+<div class="messages">
+	<h2 style="text-align: center">Public Messages</h2>
+	<ul id="msgs">
+		
+	</ul>
+</div>
+<script>
+	let msgList = document.getElementById('msgs');
+	let oldMsgs = {};
+
+	getNewMessages();
+
+	setInterval(getNewMessages, 5000);
+
+	function getNewMessages() {
+		let xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				let msgs = JSON.parse(xhttp.responseText);
+				if (oldMsgs != msgs) {
+					for (msg in msgs) {
+						if (Object.keys(oldMsgs).indexOf(msg) < 0) {
+							let li = document.createElement('li');
+							let link = document.createElement('a');
+							link.setAttribute('href', '/msg/'+msg);
+							link.textContent = msg;
+							li.appendChild(link);
+							msgList.insertBefore(li, msgList.childNodes[0]);
+						}
+					}
+					oldMsgs = msgs;
+				}
+			}
+		}
+		xhttp.open("GET", "/api", true);
+		xhttp.send();
+	} 
+
+</script>
+{% endblock %}

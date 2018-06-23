@@ -1,0 +1,51 @@
+a {
+	text-decoration: none; 
+}
+
+.title {
+	font-size: 3em;
+	text-align: center;
+	color: black;
+}
+
+.container {
+	width: 60%;
+	margin-top: 5em;
+	margin-left: 20%;
+}
+
+textarea {
+	display: block;
+	background-color: #FEFEFE;
+	display: block;
+	margin: 0 auto;
+	width: 60%;
+	height: 10em;
+	padding: 0.6%;
+	font-size: 2em;
+}
+
+#msg {
+	
+}
+
+input[type=password] {
+	margin-left: 20%;
+	width: 40%;
+	background-color: #FEFEFE;
+	padding: 0.6%;
+	font-size: 1.2em;
+}
+
+.info {
+	text-align: center;
+}
+
+.messages {
+	margin-top: 5em;
+	text-align: center;
+} .messages ul {
+	list-style-type: none;
+} 	.messages ul a {
+	color: blue;
+}
